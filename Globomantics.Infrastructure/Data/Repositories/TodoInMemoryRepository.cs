@@ -42,7 +42,7 @@ namespace Globomantics.Infrastructure.Data.Repositories
 
         public Task SaveChangesAsync()
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
         }
     }
 }

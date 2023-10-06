@@ -1,5 +1,5 @@
-﻿using Globomantics.Windows.ViewModels;
-using Globomatics.Domain;
+﻿using Globomantics.Domain;
+using Globomantics.Windows.ViewModels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
