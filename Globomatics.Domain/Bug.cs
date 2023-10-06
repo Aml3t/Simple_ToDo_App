@@ -1,5 +1,4 @@
-﻿using Globomatics.Domain;
-
+﻿
 namespace Globomantics.Domain
 {
     public record Bug(string Title,

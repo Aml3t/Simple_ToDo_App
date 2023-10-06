@@ -1,4 +1,4 @@
-﻿namespace Globomatics.Domain
+﻿namespace Globomantics.Domain
 {
     public record User(string Name)
     {
