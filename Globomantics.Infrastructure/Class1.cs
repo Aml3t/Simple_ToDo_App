@@ -1,7 +1,7 @@
 ﻿namespace Globomantics.Infrastructure
 {
-    public class Class1
+    public interface IRepository<T>
     {
-
+        Task<T> GetAsync(Guid id);
     }
 }
