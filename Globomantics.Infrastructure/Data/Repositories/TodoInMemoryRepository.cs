@@ -30,12 +30,14 @@ namespace Globomantics.Infrastructure.Data.Repositories
 
         public Task<T> FindByAsync(string value)
         {
-            throw new NotImplementedException();
+            var result = Items.Values.First(item => item.Title == value);
+
+            return Task.FromResult(result);
         }
 
         public Task<T> GetAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(Items[id]);
         }
 
         public Task SaveChangesAsync()
