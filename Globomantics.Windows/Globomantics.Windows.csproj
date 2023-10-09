@@ -14,4 +14,9 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Globomantics.Infrastructure\Globomantics.Infrastructure.csproj" />
+    <ProjectReference Include="..\Globomatics.Domain\Globomantics.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
