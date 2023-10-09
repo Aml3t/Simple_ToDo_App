@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Globomantics.Domain;
 using System;
 using System.Collections.Generic;
@@ -47,7 +48,6 @@ namespace Globomantics.Windows.ViewModels
                 OnPropertyChanged(nameof(Title));
             }
         }
-
         public T? Model
         {
             get => model;
@@ -66,7 +66,7 @@ namespace Globomantics.Windows.ViewModels
         public IEnumerable<Todo>? AvailableParentTasks { get; set; }
 
         public ICommand DeleteCommand { get; }
-        public ICommand SaveCommand { get; set; }
+        public ICommand SaveCommand { get; set; } = default!;
         public Action<string>? ShowAlert { get; set; }
         public Action<string>? ShowError { get; set; }
         public Func<IEnumerable<string>>? ShowOpenFileDialog { get; set; }
@@ -76,9 +76,32 @@ namespace Globomantics.Windows.ViewModels
 
         public abstract Task SaveAsync();
 
-        public void UpdateModel(Todo model)
+        public virtual void UpdateModel(Todo model)
         {
-            throw new NotImplementedException();
+            if (model is null)
+            {
+                return;
+            }
+
+            var parent = AvailableParentTasks?.SingleOrDefault(
+                t => t.Parent is not null && t.Parent?.Id == model.Parent?.Id
+                );
+
+            Model = model as T;
+            Title = model.Title;
+            IsCompleted = model.IsCompleted;
+            Parent = parent;
+        }
+
+        public BaseTodoViewModel()
+        {
+            DeleteCommand = new RelayCommand(() =>
+            {
+                if (Model is not null)
+                {
+                    Model = Model with { IsDeleted = true };
+                }
+            });
         }
     }
 }

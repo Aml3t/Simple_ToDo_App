@@ -3,7 +3,7 @@
 namespace Globomantics.Domain
 {
 
-    public abstract record Todo(Guid id,
+    public abstract record Todo(Guid Id,
         string Title,
         DateTimeOffset CreatedDate,
         User CreatedBy,
