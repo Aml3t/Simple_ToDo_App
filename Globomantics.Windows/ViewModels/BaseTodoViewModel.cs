@@ -13,8 +13,40 @@ namespace Globomantics.Windows.ViewModels
     {
         private T? model;
         private string? title;
-        private bool IsCompleted;
+        private bool isCompleted;
         private Todo? parent;
+
+        public Todo? Parent
+        {
+            get => parent;
+            
+            set
+            {
+                parent = value;
+                OnPropertyChanged(nameof(Parent));
+            }
+        }
+        public bool IsCompleted
+        {
+            get => isCompleted;
+
+            set
+            {
+                isCompleted = value;
+                OnPropertyChanged(nameof(IsCompleted));
+
+            }
+        }
+        public string Title
+        {
+            get => title;
+
+            set
+            {
+                title = value;
+                OnPropertyChanged(nameof(Title));
+            }
+        }
 
         public T? Model
         {
@@ -24,9 +56,11 @@ namespace Globomantics.Windows.ViewModels
             {
                 model = value;
                 OnPropertyChanged(nameof(Model));
+                OnPropertyChanged(nameof(IsExisting));
             }
         }
 
+        public bool IsExisting => Model is not null;
 
         #region From ITodoViewModel and through it, the IViewModel
         public IEnumerable<Todo>? AvailableParentTasks { get; set; }
