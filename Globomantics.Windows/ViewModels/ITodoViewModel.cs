@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Globomantics.Windows.ViewModels
 {
@@ -11,6 +12,9 @@ namespace Globomantics.Windows.ViewModels
     {
         IEnumerable<Todo>? AvailableParentTasks { get; set; }
 
-
+        ICommand DeleteCommand { get; }
+        ICommand SaveCommand { get; }
+        Task SaveAsync();
+        public void UpdateModel(Todo model);
     }
 }
