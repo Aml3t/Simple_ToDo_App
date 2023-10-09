@@ -35,7 +35,6 @@ namespace Globomantics.Windows.ViewModels
             {
                 isCompleted = value;
                 OnPropertyChanged(nameof(IsCompleted));
-
             }
         }
         public string Title
