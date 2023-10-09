@@ -1,5 +1,4 @@
-﻿using Globomantics.Domain;
-using Globomantics.Windows.ViewModels;
+﻿using Globomantics.Windows.ViewModels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -9,7 +8,6 @@ namespace Globomantics.Windows;
 
 public partial class App : Application
 {
-    public static User CurrentUser { get; set; } = default!;
     public IServiceProvider ServiceProvider { get; init; } 
     public IConfiguration Configuration { get; init; }
 

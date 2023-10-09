@@ -14,32 +14,29 @@ namespace Globomantics.Infrastructure.Data.Repositories
     {
         public ConcurrentDictionary<Guid, T> Items { get; } = new();
 
-        public Task AddAsync(T item)
+
+        public Task<T> GetAsync(Guid id)
         {
-            Items.TryAdd(item.id, item);
-
-            return Task.CompletedTask;
+            return Task.FromResult(Items[id]);
         }
-
-        public Task<IEnumerable<T>> AllAsync()
-        {
-            var items = Items.Values.ToArray();
-
-            return Task.FromResult<IEnumerable<T>>(items);
-        }
-
         public Task<T> FindByAsync(string value)
         {
             var result = Items.Values.First(item => item.Title == value);
 
             return Task.FromResult(result);
         }
-
-        public Task<T> GetAsync(Guid id)
+        public Task<IEnumerable<T>> AllAsync()
         {
-            return Task.FromResult(Items[id]);
-        }
+            var items = Items.Values.ToArray();
 
+            return Task.FromResult<IEnumerable<T>>(items);
+        }
+        public Task AddAsync(T item)
+        {
+            Items.TryAdd(item.id, item);
+
+            return Task.CompletedTask;
+        }
         public Task SaveChangesAsync()
         {
             return Task.CompletedTask;
