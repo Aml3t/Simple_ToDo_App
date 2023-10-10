@@ -32,7 +32,7 @@ namespace Globomantics.Windows.ViewModels
             SaveCommand = new RelayCommand(async () => await SaveAsync());
 
         }
-        public override Task SaveAsync()
+        public override  async Task SaveAsync()
         {
             if (string.IsNullOrEmpty(Title))
             {
@@ -52,9 +52,17 @@ namespace Globomantics.Windows.ViewModels
             }
             else
             {
-                Model.
+                Model = Model with
+                {
+                    Title = Title,
+                    Description = Description,
+                    Parent = Parent,
+                    IsCompleted = IsCompleted
+                };
             }
 
+            await repository.AddAsync(Model);
+            await repository.SaveChangesAsync();
         }
 
     }
