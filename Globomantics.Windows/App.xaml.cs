@@ -1,4 +1,5 @@
-﻿using Globomantics.Windows.ViewModels;
+﻿using Globomantics.Domain;
+using Globomantics.Windows.ViewModels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -8,7 +9,8 @@ namespace Globomantics.Windows;
 
 public partial class App : Application
 {
-    public IServiceProvider ServiceProvider { get; init; } 
+    public static User CurrentUser { get; set; } = default!;
+    public IServiceProvider ServiceProvider { get; init; }
     public IConfiguration Configuration { get; init; }
 
     public App()
@@ -22,7 +24,7 @@ public partial class App : Application
         serviceCollection.AddTransient<MainViewModel>();
         serviceCollection.AddTransient<MainWindow>();
         serviceCollection.AddTransient(_ => ServiceProvider!);
-        
+
         ServiceProvider = serviceCollection.BuildServiceProvider();
     }
 
