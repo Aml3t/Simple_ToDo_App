@@ -4,6 +4,7 @@ using Globomantics.Infrastructure.Data.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,7 @@ namespace Globomantics.Windows.ViewModels
 {
     public class BugViewModel : BaseTodoViewModel<Bug>
     {
-        private readonly IRepository<Feature> repository;
+        private readonly IRepository<Bug> repository;
 
         private string? description;
         private string? affectedVersion;
@@ -25,7 +26,7 @@ namespace Globomantics.Windows.ViewModels
         public Severity Severity
         {
             get => severity;
-            
+
             set
             {
                 severity = value;
@@ -50,7 +51,7 @@ namespace Globomantics.Windows.ViewModels
                 OnPropertyChanged(nameof(AffectedUsers));
             }
         }
-        public string? AffectedVersion
+        public string AffectedVersion
         {
             get => affectedVersion;
 
@@ -78,10 +79,10 @@ namespace Globomantics.Windows.ViewModels
             Severity.Major,
             Severity.Minor
         };
-        public ObservableCollection<byte[]> Screenshots { get; set; } = new ();
+        public ObservableCollection<byte[]> Screenshots { get; set; } = new();
         public ICommand AttachScreenshotCommand { get; set; }
 
-        public BugViewModel(IRepository<Feature> repository) : base()
+        public BugViewModel(IRepository<Bug> repository) : base()
         {
             this.repository = repository;
 
@@ -104,9 +105,60 @@ namespace Globomantics.Windows.ViewModels
             );
         }
 
-        public override Task SaveAsync()
+        public override void UpdateModel(Todo model)
         {
-            throw new NotImplementedException();
+            if (model is not Bug bug) return;
+
+            base.UpdateModel(model);
+
+            Description = bug.Description;
+            AffectedVersion = bug.AffectedVersion;
+            AffectedUsers = bug.AffectedUsers;
+            Severity = bug.Severity;
+            Screenshots = new(bug.Images);
+            DueDate = bug.DueDate;
+        }
+
+        public override async Task SaveAsync()
+        {
+            if (string.IsNullOrEmpty(Title))
+            {
+                ShowError?.Invoke($"{Title} can not be empty");
+                return;
+            }
+
+            if (Model is null)
+            {
+                Model = new Bug(Title, Description ?? "No description",
+                    Severity, AffectedVersion,
+                    AffectedUsers, App.CurrentUser,
+                    App.CurrentUser, Screenshots.ToArray())
+                {
+                    DueDate = DueDate,
+                    Parent = Parent,
+                    IsCompleted = IsCompleted
+                };
+            }
+            else
+            {
+                Model = Model with
+                {
+                    Title = Title,
+                    Description = Description ?? "no description",
+                    Severity = Severity,
+                    AffectedVersion = AffectedVersion,
+                    AffectedUsers = AffectedUsers,
+                    DueDate = DueDate,
+                    Parent = Parent,
+                    IsCompleted = IsCompleted,
+                    Images = Screenshots.ToArray()
+                };
+            }
+
+            await repository.AddAsync(Model);
+            await repository.SaveChangesAsync();
+
+            // TODO: Send message that the item is saved
         }
     }
 }

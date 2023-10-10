@@ -15,7 +15,7 @@ namespace Globomantics.Windows.ViewModels
 
         private string? description;
 
-        public string? Description
+        public string Description
         {
             get => description;
             set
