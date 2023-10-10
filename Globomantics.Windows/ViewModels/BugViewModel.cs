@@ -79,6 +79,7 @@ namespace Globomantics.Windows.ViewModels
             Severity.Major,
             Severity.Minor
         };
+
         public ObservableCollection<byte[]> Screenshots { get; set; } = new();
         public ICommand AttachScreenshotCommand { get; set; }
 
@@ -130,9 +131,9 @@ namespace Globomantics.Windows.ViewModels
             if (Model is null)
             {
                 Model = new Bug(Title, Description ?? "No description",
-                    Severity, AffectedVersion,
-                    AffectedUsers, App.CurrentUser,
-                    App.CurrentUser, Screenshots.ToArray())
+                Severity, AffectedVersion,
+                AffectedUsers, App.CurrentUser,
+                App.CurrentUser, Screenshots.ToArray())
                 {
                     DueDate = DueDate,
                     Parent = Parent,
