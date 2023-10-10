@@ -18,11 +18,44 @@ namespace Globomantics.Windows.ViewModels
         private DateTimeOffset dueDate;
         private Severity severity;
 
+        public Severity Severity
+        {
+            get => severity;
+            
+            set
+            {
+                severity = value;
+                OnPropertyChanged(nameof(Severity));
+            }
+        }
+        public DateTimeOffset DueDate
+        {
+            get => dueDate;
+            set
+            {
+                dueDate = value;
+                OnPropertyChanged(nameof(DueDate));
+            }
+        }
+        public int AffectedUsers
+        {
+            get => affectedUsers;
+            set
+            {
+                affectedUsers = value;
+                OnPropertyChanged(nameof(AffectedUsers));
+            }
+        }
+        public string? AffectedVersion
+        {
+            get => affectedVersion;
 
-
-
-
-
+            set
+            {
+                affectedVersion = value;
+                OnPropertyChanged(nameof(AffectedVersion));
+            }
+        }
         public string? Description
         {
             get => description;
@@ -33,6 +66,14 @@ namespace Globomantics.Windows.ViewModels
                 OnPropertyChanged(nameof(Description));
             }
         }
+
+        public IEnumerable<Severity> SeverityLevels { get; } = new[]
+        {
+            Severity.Critical,
+            Severity.Annoying,
+            Severity.Major,
+            Severity.Minor
+        };
 
         public BugViewModel(IRepository<Feature> repository) : base()
         {
