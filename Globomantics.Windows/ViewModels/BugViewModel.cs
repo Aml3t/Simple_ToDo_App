@@ -13,6 +13,16 @@ namespace Globomantics.Windows.ViewModels
         private readonly IRepository<Feature> repository;
 
         private string? description;
+        private string? affectedVersion;
+        private int affectedUsers;
+        private DateTimeOffset dueDate;
+        private Severity severity;
+
+
+
+
+
+
         public string? Description
         {
             get => description;

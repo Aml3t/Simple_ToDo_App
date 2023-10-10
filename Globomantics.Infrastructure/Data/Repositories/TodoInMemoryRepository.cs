@@ -33,7 +33,7 @@ namespace Globomantics.Infrastructure.Data.Repositories
         }
         public Task AddAsync(T item)
         {
-            Items.TryAdd(item.id, item);
+            Items.TryAdd(item.Id, item);
 
             return Task.CompletedTask;
         }
