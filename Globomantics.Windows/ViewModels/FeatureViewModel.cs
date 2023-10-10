@@ -32,7 +32,7 @@ namespace Globomantics.Windows.ViewModels
             SaveCommand = new RelayCommand(async () => await SaveAsync());
 
         }
-        public override  async Task SaveAsync()
+        public override async Task SaveAsync()
         {
             if (string.IsNullOrEmpty(Title))
             {
@@ -63,6 +63,18 @@ namespace Globomantics.Windows.ViewModels
 
             await repository.AddAsync(Model);
             await repository.SaveChangesAsync();
+
+            // TODO: Send message that the item is saved
+        }
+
+        public override void UpdateModel(Todo model)
+        {
+            if (model is not Feature feature) return;
+
+            base.UpdateModel(feature);
+
+            Description = feature.Description;
+
         }
 
     }
