@@ -1,10 +1,14 @@
-﻿using Globomantics.Domain;
+﻿using CommunityToolkit.Mvvm.Input;
+using Globomantics.Domain;
 using Globomantics.Infrastructure.Data.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Globomantics.Windows.ViewModels
 {
@@ -74,10 +78,30 @@ namespace Globomantics.Windows.ViewModels
             Severity.Major,
             Severity.Minor
         };
+        public ObservableCollection<byte[]> Screenshots { get; set; } = new ();
+        public ICommand AttachScreenshotCommand { get; set; }
 
         public BugViewModel(IRepository<Feature> repository) : base()
         {
             this.repository = repository;
+
+            SaveCommand = new RelayCommand(async () => await SaveAsync());
+
+            AttachScreenshotCommand = new RelayCommand(() =>
+            {
+                var filenames = ShowOpenFileDialog?.Invoke();
+
+                if (filenames is null || !filenames.Any())
+                {
+                    return;
+                }
+
+                foreach (var filename in filenames)
+                {
+                    Screenshots.Add(File.ReadAllBytes(filename));
+                }
+            }
+            );
         }
 
         public override Task SaveAsync()
