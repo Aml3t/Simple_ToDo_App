@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Globomantics.Domain;
+using Globomantics.Windows.Messages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -99,6 +101,9 @@ namespace Globomantics.Windows.ViewModels
                 if (Model is not null)
                 {
                     Model = Model with { IsDeleted = true };
+
+                    WeakReferenceMessenger.Default.Send<TodoDeletedMessage>(new(Model));
+
                 }
             });
         }

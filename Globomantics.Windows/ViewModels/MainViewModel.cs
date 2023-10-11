@@ -1,6 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
+using Globomantics.Domain;
+using Globomantics.Windows.Messages;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -43,8 +47,17 @@ public class MainViewModel : ObservableObject,
     public Func<string>? ShowSaveFileDialog { get; set; }
     public Func<string, bool>? AskForConfirmation { get; set; }
 
+    public ObservableCollection<Todo> Completed { get; set; } = new();
+    public ObservableCollection<Todo> Unfinished { get; set; } = new();
+
+
     public MainViewModel()
     {
+        WeakReferenceMessenger.Default.Register<TodoSavedMessage>(this,
+            (sender, message) =>
+            {
+                var item = message.Value;
+            });
     }
 
     public async Task InitializeAsync()
