@@ -36,7 +36,7 @@ namespace Globomantics.Windows.Factories
 
             ArgumentNullException.ThrowIfNull(viewModel);
 
-            if (tasks is not null || tasks.Any())
+            if (tasks is not null && tasks.Any())
             {
                 viewModel.AvailableParentTasks = tasks;
             }
