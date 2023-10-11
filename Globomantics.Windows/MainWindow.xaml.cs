@@ -1,10 +1,13 @@
-﻿using Globomantics.Domain;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using Globomantics.Domain;
 using Globomantics.Windows.Factories;
+using Globomantics.Windows.Messages;
 using Globomantics.Windows.ViewModels;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
@@ -18,7 +21,7 @@ public partial class MainWindow : Window
 
     public MainWindow(MainViewModel mainViewModel,
         TodoViewModelFactory todoViewModelFactory)
-    { 
+    {
         InitializeComponent();
 
         this.mainViewModel = mainViewModel;
@@ -27,14 +30,26 @@ public partial class MainWindow : Window
 
         mainViewModel.ShowSaveFileDialog = () => OpenCreateFileDialog();
         mainViewModel.ShowOpenFileDialog = () => OpenFileDialog(".json", "JSON (.json)|*.json", true);
-        mainViewModel.ShowError = (message) => {
+        mainViewModel.ShowError = (message) =>
+        {
             MessageBox.Show(message);
         };
-        mainViewModel.ShowAlert = (message) => {
+        mainViewModel.ShowAlert = (message) =>
+        {
             MessageBox.Show(message);
         };
 
         TodoType.ItemsSource = TodoViewModelFactory.TodoTypes;
+
+        WeakReferenceMessenger.Default.Register<TodoSavedMessage>(this,
+            (sender, message) => {
+                CreateTodoControlContainer.Children.Clear();
+            });
+
+        WeakReferenceMessenger.Default.Register<TodoDeletedMessage>(this,
+            (sender, message) => {
+                CreateTodoControlContainer.Children.Clear();
+            });
     }
 
     protected override async void OnActivated(EventArgs e)
@@ -56,7 +71,7 @@ public partial class MainWindow : Window
     {
         ITodoViewModel viewModel = todoViewModelFactory.CreateViewModel(
             type,
-            null,
+            mainViewModel.Unfinished.ToArray(),
             model
             );
 
