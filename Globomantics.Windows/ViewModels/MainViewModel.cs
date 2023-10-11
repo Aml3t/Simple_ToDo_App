@@ -5,6 +5,7 @@ using Globomantics.Windows.Messages;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -57,7 +58,45 @@ public class MainViewModel : ObservableObject,
             (sender, message) =>
             {
                 var item = message.Value;
+
+                if (item.IsCompleted)
+                {
+                    var existing = Unfinished.FirstOrDefault(i => i.Id == item.Id);
+
+                    if (existing is not null)
+                    {
+                        Unfinished.Remove(existing);
+                    }
+
+                    ReplaceOrAdd(Completed, item);
+                }
+                else
+                {
+                    var existing = Completed.FirstOrDefault(i => i.Id == item.Id);
+
+                    if (existing is not null)
+                    {
+                        Completed.Remove(existing);
+                    }
+
+                    ReplaceOrAdd(Unfinished, item);
+                }
             });
+    }
+
+    private void ReplaceOrAdd(ObservableCollection<Todo> collection, Todo item)
+    {
+        var existingItem = collection.FirstOrDefault(i => i.Id == item.Id);
+        
+        if (existingItem is not null)
+        {
+            var index = collection.IndexOf(existingItem);
+            collection[index] = item;
+        }
+        else
+        {
+            collection.Add(item);
+        }
     }
 
     public async Task InitializeAsync()
