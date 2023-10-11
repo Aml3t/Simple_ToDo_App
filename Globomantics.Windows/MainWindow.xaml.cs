@@ -60,7 +60,12 @@ public partial class MainWindow : Window
             model
             );
 
-        viewModel.ShowError = (message) => { };
+        viewModel.ShowError = (message) => { MessageBox.Show(message); };
+        viewModel.ShowAlert = (message) => { MessageBox.Show(message); };
+        viewModel.ShowOpenFileDialog = ()
+            => OpenFileDialog(".jpg", "Images (.jpg)|*.jpg", true);
+
+        return TodoUserControlFactory.CreateUserControl(viewModel);
 
     }
 
