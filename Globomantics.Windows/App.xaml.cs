@@ -26,6 +26,8 @@ public partial class App : Application
         serviceCollection.AddSingleton<IRepository<Feature>, TodoInMemoryRepository<Feature>>();
         serviceCollection.AddSingleton<IRepository<TodoTask>, TodoInMemoryRepository<TodoTask>>();
 
+        serviceCollection.AddTransient<FeatureViewModel>();
+        serviceCollection.AddTransient<BugViewModel>();
 
         serviceCollection.AddTransient<MainViewModel>();
         serviceCollection.AddTransient<MainWindow>();

@@ -1,4 +1,5 @@
-﻿using Globomantics.Windows.ViewModels;
+﻿using Globomantics.Domain;
+using Globomantics.Windows.ViewModels;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -45,9 +46,8 @@ public partial class MainWindow : Window
         }
     }
 
-    private UserControl CreateUserControl(string type, 
-        // TODO: Change object to domain object type
-        object? model = default)
+    private UserControl CreateUserControl(string type,
+        Todo? model = default)
     {
         throw new NotImplementedException();
     }
@@ -77,8 +77,8 @@ public partial class MainWindow : Window
 
         var control = CreateUserControl(
             list.SelectedValue.GetType().Name,
-            list.SelectedValue);
-
+            list.SelectedValue as Todo);
+        // TODO Check if the type cast is working
         CreateTodoControlContainer.Children.Add(control);
 
         CompletedItems.UnselectAll();

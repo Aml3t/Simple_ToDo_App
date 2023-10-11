@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using Globomantics.Domain;
 using Globomantics.Infrastructure.Data.Repositories;
+using Globomantics.Windows.Factories;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -158,7 +159,6 @@ namespace Globomantics.Windows.ViewModels
 
             await repository.AddAsync(Model);
             await repository.SaveChangesAsync();
-
             // TODO: Send message that the item is saved
         }
     }
