@@ -82,6 +82,20 @@ public class MainViewModel : ObservableObject,
                     ReplaceOrAdd(Unfinished, item);
                 }
             });
+
+        WeakReferenceMessenger.Default.Register<TodoDeletedMessage>(this,
+            (sender, message) =>
+            {
+                var item = message.Value;
+
+                var unfinishedItem = Unfinished.FirstOrDefault(i => i.Id == item.Id);
+
+                if (unfinishedItem is not null)
+                {
+                    Unfinished.Remove(unfinishedItem);
+                }
+            }
+            );
     }
 
     private void ReplaceOrAdd(ObservableCollection<Todo> collection, Todo item)
