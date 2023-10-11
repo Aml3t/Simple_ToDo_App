@@ -85,7 +85,7 @@ namespace Globomantics.Windows.ViewModels
             }
 
             var parent = AvailableParentTasks?.SingleOrDefault(
-                t => t.Parent is not null && t.Parent?.Id == model.Parent?.Id
+                t => model.Parent is not null && t.Id == model.Parent.Id
                 );
 
             Model = model as T;
