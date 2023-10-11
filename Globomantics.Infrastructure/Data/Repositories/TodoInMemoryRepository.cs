@@ -14,7 +14,6 @@ namespace Globomantics.Infrastructure.Data.Repositories
     {
         public ConcurrentDictionary<Guid, T> Items { get; } = new();
 
-
         public Task<T> GetAsync(Guid id)
         {
             return Task.FromResult(Items[id]);
