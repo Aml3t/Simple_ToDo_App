@@ -25,9 +25,7 @@ namespace Globomantics.Windows.Factories
             this.serviceProvider = serviceProvider;
         }
 
-        public ITodoViewModel CreateViewModel(string type,
-            IEnumerable<Todo> tasks,
-            Todo? model = default)
+        public ITodoViewModel CreateViewModel(string type, IEnumerable<Todo> tasks, Todo? model = default)
         {
             ITodoViewModel? viewModel = type switch
             {

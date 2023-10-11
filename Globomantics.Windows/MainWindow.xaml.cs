@@ -1,4 +1,5 @@
 ﻿using Globomantics.Domain;
+using Globomantics.Windows.Factories;
 using Globomantics.Windows.ViewModels;
 using Microsoft.Win32;
 using System;
@@ -13,13 +14,15 @@ namespace Globomantics.Windows;
 public partial class MainWindow : Window
 {
     private readonly MainViewModel mainViewModel;
+    private readonly TodoViewModelFactory todoViewModelFactory;
 
-    public MainWindow(MainViewModel mainViewModel)
+    public MainWindow(MainViewModel mainViewModel,
+        TodoViewModelFactory todoViewModelFactory)
     { 
         InitializeComponent();
 
         this.mainViewModel = mainViewModel;
-
+        this.todoViewModelFactory = todoViewModelFactory;
         DataContext = mainViewModel;
 
         mainViewModel.ShowSaveFileDialog = () => OpenCreateFileDialog();
@@ -30,6 +33,8 @@ public partial class MainWindow : Window
         mainViewModel.ShowAlert = (message) => {
             MessageBox.Show(message);
         };
+
+        TodoType.ItemsSource = TodoViewModelFactory.TodoTypes;
     }
 
     protected override async void OnActivated(EventArgs e)
@@ -49,7 +54,14 @@ public partial class MainWindow : Window
     private UserControl CreateUserControl(string type,
         Todo? model = default)
     {
-        throw new NotImplementedException();
+        ITodoViewModel viewModel = todoViewModelFactory.CreateViewModel(
+            type,
+            null,
+            model
+            );
+
+        viewModel.ShowError = (message) => { };
+
     }
 
     private void Search_OnClick(object sender, RoutedEventArgs e)
