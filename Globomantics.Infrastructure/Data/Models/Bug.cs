@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace Globomantics.Infrastructure.Data.Models
 {
-    internal class Bug
+    public class Bug : TodoTask
     {
+        public string Description { get; set; } = default!;
+        public User? AssignedTo { get; set; }
+
     }
 }

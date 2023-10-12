@@ -10,5 +10,6 @@ namespace Globomantics.Infrastructure.Data.Models
     {
         public DateTimeOffset DueDate { get; init; }
 
+
     }
 }
