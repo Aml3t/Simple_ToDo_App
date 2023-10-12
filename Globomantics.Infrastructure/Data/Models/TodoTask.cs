@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace Globomantics.Infrastructure.Data.Models
 {
-    public class User
+    public class TodoTask : Todo
     {
-        public Guid Id { get; init; } = Guid.NewGuid();
-
-        public string Name { get; set; } = default!;
+        public DateTimeOffset DueDate { get; init; }
 
     }
 }

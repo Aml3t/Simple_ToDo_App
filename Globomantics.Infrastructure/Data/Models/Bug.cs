@@ -6,11 +6,7 @@ using System.Threading.Tasks;
 
 namespace Globomantics.Infrastructure.Data.Models
 {
-    public class User
+    internal class Bug
     {
-        public Guid Id { get; init; } = Guid.NewGuid();
-
-        public string Name { get; set; } = default!;
-
     }
 }
