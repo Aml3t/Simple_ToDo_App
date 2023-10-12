@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Globomantics.Infrastructure.Data.Models
 {
-    public class TodoTask : Todo
+    public class Image
     {
-        public DateTimeOffset DueDate { get; init; }
-
+        public Guid Id { get; set; } = Guid.NewGuid();
+        public string ImageData { get; set; } = default!;
     }
 }
