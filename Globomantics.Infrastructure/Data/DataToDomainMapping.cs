@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.VisualBasic;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,5 +13,36 @@ namespace Globomantics.Infrastructure.Data
         public static TTo MapTodoFromData<TFrom, TTo>(TFrom input)
             where TFrom : Data.Models.Todo
             where TTo : Domain.Todo
+        {
+            var model = input switch
+            {
+                Data.Models.Bug bug => MapBug(bug),
+                Data.Models.Feature feature => MapFeature(feature),
+                Data.Models.TodoTask task => MapTask(task),
+                _ => throw new NotImplementedException()
+            } as TTo;
+
+            return model;
+        }
+        
+        private static Domain.Bug MapBug(Data.Models.Bug bug)
+        {
+            return new(bug.Title,
+                bug.Description,
+                (Domain.Severity)bug.Severity,
+                bug.AffectedVersion,
+                bug.AffectedUsers,
+                MapUser(bug.CreatedBy),
+                MapUser(bug.AssignedTo),
+                null,
+                bug?.Images?.Select(
+                image => Convert.FromBase64String(image.ImageData)).ToArray()
+                ?? Enumerable.Empty<byte[]>()
+                )
+            {
+                IDictionary = bug.Id,
+                DueDate = bug.DueDate
+            };
+        }
     }
 }
