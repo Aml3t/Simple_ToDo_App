@@ -37,20 +37,26 @@ namespace Globomantics.Infrastructure.Data
                 bug?.Images?.Select(
                 image => Convert.FromBase64String(image.ImageData)).ToArray()
                 ?? Enumerable.Empty<byte[]>()
-                )
+            )
             {
-                IDictionary = bug.Id,
+                Id = bug.Id,
                 DueDate = bug.DueDate
             };
         }
 
         private static Domain.Feature MapFeature(Data.Models.Feature feature)
         {
-            return new(feature.Description,
+            return new(feature.Title,
+                feature.Description,
                 feature.Component,
                 feature.Priority,
-                MapUser(feature.AssignedTo)
-                );
+                MapUser(feature.CreatedBy),
+                MapUser(feature.AssignedTo))
+            {
+                Id = feature.Id,
+                DueDate = feature.DueDate,
+                IsCompleted = feature.IsCompleted;
+            };
         }
     }
 }
