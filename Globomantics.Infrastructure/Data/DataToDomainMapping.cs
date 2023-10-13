@@ -24,7 +24,7 @@ namespace Globomantics.Infrastructure.Data
 
             return model;
         }
-        
+
         private static Domain.Bug MapBug(Data.Models.Bug bug)
         {
             return new(bug.Title,
@@ -34,7 +34,6 @@ namespace Globomantics.Infrastructure.Data
                 bug.AffectedUsers,
                 MapUser(bug.CreatedBy),
                 MapUser(bug.AssignedTo),
-                null,
                 bug?.Images?.Select(
                 image => Convert.FromBase64String(image.ImageData)).ToArray()
                 ?? Enumerable.Empty<byte[]>()
@@ -43,6 +42,15 @@ namespace Globomantics.Infrastructure.Data
                 IDictionary = bug.Id,
                 DueDate = bug.DueDate
             };
+        }
+
+        private static Domain.Feature MapFeature(Data.Models.Feature feature)
+        {
+            return new(feature.Description,
+                feature.Component,
+                feature.Priority,
+                MapUser(feature.AssignedTo)
+                );
         }
     }
 }
