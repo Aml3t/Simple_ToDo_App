@@ -8,6 +8,8 @@ namespace Globomantics.Infrastructure.Data
 {
     public class DataToDomainMapping
     {
-        public static TTo MapTodoFromData<TFrom, TTo>(TFrom input);
+        public static TTo MapTodoFromData<TFrom, TTo>(TFrom input)
+            where TFrom : Data.Models.Todo
+            where TTo : Domain.Todo
     }
 }
