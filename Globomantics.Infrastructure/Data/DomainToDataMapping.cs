@@ -57,6 +57,10 @@ namespace Globomantics.Infrastructure.Data
                 Description = feature.Description,
                 Priority = feature.Priority
             };
+        }
+
+        private static Data.Models.TodoTask MapTask (Domain.TodoTask task)
+        {
 
         }
     }
