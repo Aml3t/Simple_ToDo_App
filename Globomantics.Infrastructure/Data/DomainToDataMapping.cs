@@ -25,9 +25,14 @@ namespace Globomantics.Infrastructure.Data
             return model;
         }
 
-        private static object MapTask(TodoTask task)
+        public static Data.Models.User MapUser(Domain.User user)
         {
-            throw new NotImplementedException();
+            return new() { Id = user.Id, Name = user.Name };
+        }
+
+        private static Data.Models.Bug MapTask(Domain.Bug bug)
+        {
+            return new Bug;
         }
 
         private static object MapFeature(Feature feature)
