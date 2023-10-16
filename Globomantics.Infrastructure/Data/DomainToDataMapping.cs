@@ -51,7 +51,12 @@ namespace Globomantics.Infrastructure.Data
                 Component = feature.Component,
                 CreatedDate = feature.CreatedDate,
                 DueDate = feature.DueDate,
-            }
+                IsCompleted = feature.IsCompleted,
+                IsDeleted = feature.IsDeleted,
+                Title = feature.Title,
+                Description = feature.Description,
+                Priority = feature.Priority
+            };
 
         }
     }
