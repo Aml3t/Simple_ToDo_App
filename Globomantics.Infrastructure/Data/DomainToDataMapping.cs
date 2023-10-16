@@ -23,6 +23,7 @@ namespace Globomantics.Infrastructure.Data
         {
             return new() { Id = user.Id, Name = user.Name };
         }
+
         private static Data.Models.Bug MapBug(Domain.Bug bug)
         {
             return new()
@@ -32,14 +33,25 @@ namespace Globomantics.Infrastructure.Data
                 AffectedVersion = bug.AffectedVersion,
                 CreatedDate = bug.CreatedDate,
                 DueDate = bug.DueDate,
-                Images = bug.Images.Select(image => new Data.Models.Image { ImageData = Convert.ToBase64String(image) }).ToArray(),
+                Images = bug.Images.Select(image =>
+                new Data.Models.Image
+                { ImageData = Convert.ToBase64String(image) }).ToArray(),
                 IsCompleted = bug.IsCompleted,
                 IsDeleted = bug.IsDeleted,
                 Severity = (Data.Models.Severity)bug.Severity,
                 Title = bug.Title,
                 Description = bug.Description,
-
             };
+        }
+        private static Data.Models.Feature MapFeature(Domain.Feature feature)
+        {
+            return new()
+            {
+                Id = feature.Id,
+                Component = feature.Component,
+                CreatedDate = feature.CreatedDate,
+                DueDate = feature.DueDate,
+            }
 
         }
     }
