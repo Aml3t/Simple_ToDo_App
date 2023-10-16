@@ -1,10 +1,4 @@
 ﻿using Globomantics.Infrastructure.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Globomantics.Infrastructure.Data
 {
@@ -29,8 +23,7 @@ namespace Globomantics.Infrastructure.Data
         {
             return new() { Id = user.Id, Name = user.Name };
         }
-
-        private static Data.Models.Bug MapTask(Domain.Bug bug)
+        private static Data.Models.Bug MapBug(Domain.Bug bug)
         {
             return new()
             {
@@ -39,24 +32,15 @@ namespace Globomantics.Infrastructure.Data
                 AffectedVersion = bug.AffectedVersion,
                 CreatedDate = bug.CreatedDate,
                 DueDate = bug.DueDate,
-                Images = bug.Images.Select(image => new Data.Models.Image
-                { ImageData = Convert.ToBase64String(image) }).ToArray(),
+                Images = bug.Images.Select(image => new Data.Models.Image { ImageData = Convert.ToBase64String(image) }).ToArray(),
                 IsCompleted = bug.IsCompleted,
                 IsDeleted = bug.IsDeleted,
                 Severity = (Data.Models.Severity)bug.Severity,
                 Title = bug.Title,
-                Description = bug.Description
+                Description = bug.Description,
+
             };
-        }
 
-        private static object MapFeature(Feature feature)
-        {
-            throw new NotImplementedException();
-        }
-
-        private static object MapBug(Bug bug)
-        {
-            throw new NotImplementedException();
         }
     }
 }
