@@ -25,6 +25,13 @@ namespace Globomantics.Infrastructure.Data
             return model;
         }
 
+        public static Domain.User MapUser(Data.Models.User user)
+        {
+            if (user == null) return null!;
+
+            return new(user.Name) { Id = user.Id };
+        }
+
         private static Domain.Bug MapBug(Data.Models.Bug bug)
         {
             return new(bug.Title,
