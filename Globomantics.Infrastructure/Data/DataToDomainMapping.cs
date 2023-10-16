@@ -55,7 +55,17 @@ namespace Globomantics.Infrastructure.Data
             {
                 Id = feature.Id,
                 DueDate = feature.DueDate,
-                IsCompleted = feature.IsCompleted;
+                IsCompleted = feature.IsCompleted
+            };
+        }
+
+        private static Domain.TodoTask MapTask(Data.Models.TodoTask task)
+        {
+            return new(task.Title,
+                task.DueDate,
+                MapUser(task.CreatedBy))
+            {
+                Id = task.Id
             };
         }
     }
