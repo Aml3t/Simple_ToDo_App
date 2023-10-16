@@ -32,7 +32,21 @@ namespace Globomantics.Infrastructure.Data
 
         private static Data.Models.Bug MapTask(Domain.Bug bug)
         {
-            return new Bug;
+            return new()
+            {
+                Id = bug.Id,
+                AffectedUsers = bug.AffectedUsers,
+                AffectedVersion = bug.AffectedVersion,
+                CreatedDate = bug.CreatedDate,
+                DueDate = bug.DueDate,
+                Images = bug.Images.Select(image => new Data.Models.Image
+                { ImageData = Convert.ToBase64String(image) }).ToArray(),
+                IsCompleted = bug.IsCompleted,
+                IsDeleted = bug.IsDeleted,
+                Severity = (Data.Models.Severity)bug.Severity,
+                Title = bug.Title,
+                Description = bug.Description
+            };
         }
 
         private static object MapFeature(Feature feature)
