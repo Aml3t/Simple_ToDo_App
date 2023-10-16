@@ -16,10 +16,11 @@ namespace Globomantics.Infrastructure.Data
         {
             var model = input switch
             {
-                Data.Models.Bug bug => MapBug(bug),
-                Data.Models.Feature feature => MapFeature(feature),
-                Data.Models.TodoTask task => MapTask(task),
-            }
+                Domain.Bug bug => MapBug(bug),
+                Domain.Feature feature => MapFeature(feature),
+                Domain.TodoTask task => MapTask(task),
+                _ => throw new NotImplementedException()
+            } as TTo;
 
             return model;
         }
