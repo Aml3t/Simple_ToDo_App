@@ -59,9 +59,17 @@ namespace Globomantics.Infrastructure.Data
             };
         }
 
-        private static Data.Models.TodoTask MapTask (Domain.TodoTask task)
+        private static Data.Models.TodoTask MapTask(Domain.TodoTask task)
         {
-
+            return new()
+            {
+                Id = task.Id,
+                CreatedDate = task.CreatedDate,
+                DueDate = task.DueDate,
+                IsCompleted = task.IsCompleted,
+                IsDeleted = task.IsDeleted,
+                Title = task.Title
+            };
         }
     }
 }
