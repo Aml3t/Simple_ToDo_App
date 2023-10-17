@@ -15,5 +15,10 @@ namespace Globomantics.Infrastructure.Data
         public DbSet<Feature> Features { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Image> Images { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlite("Data Source = Globomantics.db");
+        }
     }
 }
