@@ -19,7 +19,7 @@ namespace Globomantics.Infrastructure.Data.Repositories
 
         public abstract Task AddAsync(T item);
 
-        public abstract Task GetAsync(Guid id);
+        public abstract Task<T> GetAsync(Guid id);
 
         public virtual async Task<IEnumerable<T>> AllAsync()
         {
@@ -28,6 +28,15 @@ namespace Globomantics.Infrastructure.Data.Repositories
                 .Include(t => t.Parent)
                 .Select(x => DataToDomainMapping.MapTodoFromData<Data.Models.TodoTask, T>(x))
                 .ToArrayAsync();
+        }
+
+        public virtual async Task<T> FindByAsync(string title)
+        {
+            var task = await Context.TodoTasks
+                .SingleAsync(t => title == t.Title);
+
+            return DataToDomainMapping.MapTodoFromData<Data.Models.TodoTask, T>(task); 
+
         }
     }
 }

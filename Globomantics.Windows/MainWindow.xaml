@@ -64,7 +64,7 @@
             </StatusBarItem>
             <StatusBarItem HorizontalAlignment="Right">
                 <TextBlock Padding="5" FontSize="18">
-                    Copied and compiled by <Hyperlink NavigateUri="https://github.com/Aml3t" RequestNavigate="Hyperlink_OnRequestNavigate">Aml3t</Hyperlink>
+                    Recreated and compiled by <Hyperlink NavigateUri="https://github.com/Aml3t" RequestNavigate="Hyperlink_OnRequestNavigate">Aml3t</Hyperlink>
                 </TextBlock>
             </StatusBarItem>
         </StatusBar>
