@@ -35,9 +35,15 @@ namespace Globomantics.Infrastructure.Data.Repositories
 
         }
 
-        private Task CreateAsync(Bug bug, Models.User user)
+        private async Task CreateAsync(Bug bug, Models.User user)
         {
-            throw new NotImplementedException();
+            var bugToAdd = DomainToDataMapping.MapTodoFromDomain<Bug, Data.Models.Bug>(bug);
+
+            await SetParentAsync(bugToAdd, bug);
+
+            bugToAdd.CreatedBy = user;
+
+            await Context.AddAsync(bugToAdd);
         }
 
         private Task UpdateAsync(Bug bug, Models.Bug existingBug, Models.User user)
