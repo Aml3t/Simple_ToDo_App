@@ -1,4 +1,5 @@
 ﻿using Globomantics.Domain;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,5 +18,16 @@ namespace Globomantics.Infrastructure.Data.Repositories
         }
 
         public abstract Task AddAsync(T item);
+
+        public abstract Task GetAsync(Guid id);
+
+        public virtual async Task<IEnumerable<T>> AllAsync()
+        {
+            return await Context.TodoTasks.Where(t => !t.IsDeleted)
+                .Include(t => t.CreatedBy)
+                .Include(t => t.Parent)
+                .Select(x => DataToDomainMapping.MapTodoFromData<Data.Models.TodoTask, T>(x))
+                .ToArrayAsync();
+        }
     }
 }
