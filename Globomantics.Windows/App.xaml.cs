@@ -57,6 +57,8 @@ public partial class App : Application
             context.SaveChanges();
         }
 
+        App.CurrentUser = DataToDomainMapping.MapUser(user);
+
         var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
 
         mainWindow?.Show();
