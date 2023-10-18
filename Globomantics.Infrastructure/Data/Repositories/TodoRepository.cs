@@ -11,7 +11,7 @@ namespace Globomantics.Infrastructure.Data.Repositories
     public abstract class TodoRepository<T> : IRepository<T>
         where T : TodoTask
     {
-        private GlobomanticsDbContext Context { get; }
+        protected GlobomanticsDbContext Context { get; }
         public TodoRepository(GlobomanticsDbContext context)
         {
             Context = context;
