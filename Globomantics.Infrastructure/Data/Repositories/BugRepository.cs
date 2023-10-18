@@ -24,6 +24,25 @@ namespace Globomantics.Infrastructure.Data.Repositories
 
             user ??= new() { Id = bug.CreatedBy.Id, Name = bug.CreatedBy.Name };
 
+            if (existingBug is not null)
+            {
+                await UpdateAsync(bug, existingBug, user);
+            }
+            else
+            {
+                await CreateAsync(bug, user);
+            }
+
+        }
+
+        private Task CreateAsync(Bug bug, Models.User user)
+        {
+            throw new NotImplementedException();
+        }
+
+        private Task UpdateAsync(Bug bug, Models.Bug existingBug, Models.User user)
+        {
+            throw new NotImplementedException();
         }
 
         public override Task<Bug> GetAsync(Guid id)
