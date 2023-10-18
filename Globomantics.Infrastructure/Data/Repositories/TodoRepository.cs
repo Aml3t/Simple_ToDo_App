@@ -36,7 +36,11 @@ namespace Globomantics.Infrastructure.Data.Repositories
                 .SingleAsync(t => title == t.Title);
 
             return DataToDomainMapping.MapTodoFromData<Data.Models.TodoTask, T>(task); 
+        }
 
+        public virtual async Task SaveChangesAsync()
+        {
+            await SaveChangesAsync();
         }
     }
 }
