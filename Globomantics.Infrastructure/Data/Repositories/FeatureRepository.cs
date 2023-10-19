@@ -1,4 +1,5 @@
 ﻿using Globomantics.Domain;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,14 +10,16 @@ namespace Globomantics.Infrastructure.Data.Repositories
 {
     public class FeatureRepository : TodoRepository<Feature>
     {
-        public FeatureRepository(GlobomanticsDbContext context) : base(context)
-        {
+        public FeatureRepository(GlobomanticsDbContext context) : base(context) { }
 
-        }
-
-        public override Task AddAsync(Feature item)
+        public override async Task AddAsync(Feature feature)
         {
-            throw new NotImplementedException();
+            var existingFeature = await Context.Features.FirstOrDefaultAsync(
+                b => b.Id == feature.Id);
+
+            var user = await Context.Users.SingleOrDefaultAsync(
+                u => u.Id == feature.Id);
+
         }
 
         public override Task<Feature> GetAsync(Guid id)
