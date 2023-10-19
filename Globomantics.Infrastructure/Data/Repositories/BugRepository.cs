@@ -61,9 +61,11 @@ namespace Globomantics.Infrastructure.Data.Repositories
             await Context.AddAsync(bugToAdd);
         }
 
-        public override Task<Bug> GetAsync(Guid id)
+        public override async Task<Bug> GetAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var data = await Context.Bugs.SingleAsync(b => b.Id == id);
+
+            return DataToDomainMapping.MapTodoFromData<Data.Models.Bug, Domain.Bug>(data);
         }
     }
 }
