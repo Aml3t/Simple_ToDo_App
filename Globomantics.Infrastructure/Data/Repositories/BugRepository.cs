@@ -34,21 +34,23 @@ namespace Globomantics.Infrastructure.Data.Repositories
             }
 
         }
+        private Task UpdateAsync(Bug bug, Models.Bug existingBug, Models.User user)
+        {
+            existingBug.IsCompleted = bug.IsCompleted;
+            existingBug.AffectedVersion = bug.AffectedVersion;
+            existingBug.AffectedUsers = bug.AffectedUsers;
+        }
 
         private async Task CreateAsync(Bug bug, Models.User user)
         {
-            var bugToAdd = DomainToDataMapping.MapTodoFromDomain<Bug, Data.Models.Bug>(bug);
+            var bugToAdd
+                = DomainToDataMapping.MapTodoFromDomain<Bug, Data.Models.Bug>(bug);
 
             await SetParentAsync(bugToAdd, bug);
 
             bugToAdd.CreatedBy = user;
 
             await Context.AddAsync(bugToAdd);
-        }
-
-        private Task UpdateAsync(Bug bug, Models.Bug existingBug, Models.User user)
-        {
-            throw new NotImplementedException();
         }
 
         public override Task<Bug> GetAsync(Guid id)
