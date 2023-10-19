@@ -53,6 +53,14 @@ namespace Globomantics.Infrastructure.Data.Repositories
                     i => i.Id == item.Parent.Id
                     );
             }
+            else if (item.Parent is not null)
+            {
+                var parentToAdd =
+                    DomainToDataMapping
+                    .MapTodoFromDomain<TodoTask, Data.Models.TodoTask>(item.Parent);
+                toBeAdded.Parent = parentToAdd;
+                await Context.AddAsync(parentToAdd);
+            }
         }
     }
 }
