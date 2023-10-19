@@ -42,5 +42,17 @@ namespace Globomantics.Infrastructure.Data.Repositories
         {
             await SaveChangesAsync();
         }
+
+        protected async Task SetParentAsync(Data.Models.Todo toBeAdded, Todo item)
+        {
+            Data.Models.TodoTask? existingParent = null;
+
+            if (item.Parent == null)
+            {
+                existingParent = await Context.TodoTasks.FirstOrDefaultAsync(
+                    i => i.Id == item.Parent.Id
+                    );
+            }
+        }
     }
 }

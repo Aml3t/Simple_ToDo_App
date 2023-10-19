@@ -34,11 +34,19 @@ namespace Globomantics.Infrastructure.Data.Repositories
             }
 
         }
-        private Task UpdateAsync(Bug bug, Models.Bug existingBug, Models.User user)
+        private async Task UpdateAsync(Bug bug, Models.Bug existingBug, Models.User user)
         {
             existingBug.IsCompleted = bug.IsCompleted;
             existingBug.AffectedVersion = bug.AffectedVersion;
             existingBug.AffectedUsers = bug.AffectedUsers;
+            existingBug.Description = bug.Description;
+            existingBug.Title = bug.Title;
+            existingBug.Severity = (Data.Models.Severity)bug.Severity;
+
+            await SetParentAsync(existingBug, bug);
+
+            Context.Bugs.Update(existingBug);
+
         }
 
         private async Task CreateAsync(Bug bug, Models.User user)
