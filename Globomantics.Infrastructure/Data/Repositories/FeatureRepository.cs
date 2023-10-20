@@ -28,7 +28,7 @@ namespace Globomantics.Infrastructure.Data.Repositories
             }
             else
             {
-                await CreateAsync(feature, existingFeature, user);
+                await CreateAsync(feature, user);
             }
         }
 
@@ -38,17 +38,36 @@ namespace Globomantics.Infrastructure.Data.Repositories
         {
             await SetParentAsync(featureToUpdate, feature);
 
+            featureToUpdate.IsCompleted = feature.IsCompleted;
+            featureToUpdate.Component = feature.Component;
+            featureToUpdate.Description = feature.Description;
+            featureToUpdate.Title = feature.Title;
+            featureToUpdate.Priority = feature.Priority;
+            featureToUpdate.AssignedTo = user;
+            featureToUpdate.CreatedBy = user;
 
+            Context.Update(featureToUpdate);
         }
 
-        private Task CreateAsync(Feature feature, Models.Feature? existingFeature, Models.User user)
+        private async Task CreateAsync(Feature feature, Models.User user)
         {
-            throw new NotImplementedException();
+            var featureToAdd
+                = DomainToDataMapping.MapTodoFromDomain<Feature, Data.Models.Feature>(feature);
+
+            await SetParentAsync(featureToAdd, feature);
+
+            featureToAdd.AssignedTo = user;
+            featureToAdd.CreatedBy = user;
+
+            await Context.AddAsync(featureToAdd);
         }
 
-        public override Task<Feature> GetAsync(Guid id)
+        public override async Task<Feature> GetAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var data = await Context.Features.SingleAsync(feature => feature.Id == id);
+
+            return DataToDomainMapping.MapTodoFromData<Data.Models.Feature, Domain.Feature>(data);
+
         }
     }
 }
