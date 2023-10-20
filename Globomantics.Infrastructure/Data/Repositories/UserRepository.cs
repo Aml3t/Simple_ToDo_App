@@ -43,9 +43,12 @@ namespace Globomantics.Infrastructure.Data.Repositories
                 .ToArrayAsync();
         }
 
-        public Task<User> FindByAsync(string value)
+        public async Task<User> FindByAsync(string name)
         {
-            throw new NotImplementedException();
+            var user = await Context.Users.SingleAsync(
+                user => user.Name == name);
+
+            return DataToDomainMapping.MapUser(user);
         }
 
         public Task<User> GetAsync(Guid id)
