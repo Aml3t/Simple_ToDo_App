@@ -32,12 +32,16 @@ namespace Globomantics.Infrastructure.Data.Repositories
             }
         }
 
-        private Task CreateAsync(Feature feature, Models.Feature? existingFeature, Models.User user)
+        private async Task UpdateAsync(Feature feature,
+            Data.Models.Feature featureToUpdate,
+            Data.Models.User user)
         {
-            throw new NotImplementedException();
+            await SetParentAsync(featureToUpdate, feature);
+
+
         }
 
-        private Task UpdateAsync(Feature feature, Models.Feature existingFeature, Models.User user)
+        private Task CreateAsync(Feature feature, Models.Feature? existingFeature, Models.User user)
         {
             throw new NotImplementedException();
         }
