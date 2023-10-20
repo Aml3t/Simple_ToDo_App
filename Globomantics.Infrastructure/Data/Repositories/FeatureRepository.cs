@@ -20,6 +20,26 @@ namespace Globomantics.Infrastructure.Data.Repositories
             var user = await Context.Users.SingleOrDefaultAsync(
                 u => u.Id == feature.Id);
 
+            user ??= new() { Id = feature.CreatedBy.Id, Name = feature.CreatedBy.Name };
+
+            if (existingFeature is not null)
+            {
+                await UpdateAsync(feature, existingFeature, user);
+            }
+            else
+            {
+                await CreateAsync(feature, existingFeature, user);
+            }
+        }
+
+        private Task CreateAsync(Feature feature, Models.Feature? existingFeature, Models.User user)
+        {
+            throw new NotImplementedException();
+        }
+
+        private Task UpdateAsync(Feature feature, Models.Feature existingFeature, Models.User user)
+        {
+            throw new NotImplementedException();
         }
 
         public override Task<Feature> GetAsync(Guid id)
