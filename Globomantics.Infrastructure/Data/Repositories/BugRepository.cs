@@ -34,6 +34,7 @@ namespace Globomantics.Infrastructure.Data.Repositories
             }
 
         }
+
         private async Task UpdateAsync(Bug bug, Models.Bug existingBug, Models.User user)
         {
             existingBug.IsCompleted = bug.IsCompleted;
