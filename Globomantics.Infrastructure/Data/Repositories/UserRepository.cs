@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -45,20 +46,28 @@ namespace Globomantics.Infrastructure.Data.Repositories
 
         public async Task<User> FindByAsync(string name)
         {
+
+            if (name is null || name == "")
+            {
+                throw new NotImplementedException();
+            }
             var user = await Context.Users.SingleAsync(
                 user => user.Name == name);
 
             return DataToDomainMapping.MapUser(user);
         }
 
-        public Task<User> GetAsync(Guid id)
+        public async Task<User> GetAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var user  = await Context.Users.SingleAsync(
+                user => user.Id == id);
+
+            return DataToDomainMapping.MapUser(user);
         }
 
-        public Task SaveChangesAsync()
+        public async Task SaveChangesAsync()
         {
-            throw new NotImplementedException();
+            await Context.SaveChangesAsync();
         }
     }
 }
