@@ -28,9 +28,17 @@ public partial class App : Application
 
         serviceCollection.AddDbContext<GlobomanticsDbContext>(ServiceLifetime.Scoped);
 
-        serviceCollection.AddSingleton<IRepository<Bug>, TodoInMemoryRepository<Bug>>();
-        serviceCollection.AddSingleton<IRepository<Feature>, TodoInMemoryRepository<Feature>>();
-        serviceCollection.AddSingleton<IRepository<TodoTask>, TodoInMemoryRepository<TodoTask>>();
+        serviceCollection.AddSingleton<IRepository<Bug>,
+            BugRepository>();
+
+        serviceCollection.AddSingleton<IRepository<Feature>,
+            FeatureRepository>();
+
+        serviceCollection.AddSingleton<IRepository<TodoTask>,
+            TodoTaskRepository>();
+
+        serviceCollection.AddSingleton<IRepository<User>,
+            UserRepository>();
 
         serviceCollection.AddTransient<TodoViewModelFactory>();
         serviceCollection.AddTransient<FeatureViewModel>();
