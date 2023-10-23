@@ -40,7 +40,7 @@ namespace Globomantics.Infrastructure.Data.Repositories
 
         public virtual async Task SaveChangesAsync()
         {
-            await SaveChangesAsync();
+            await Context.SaveChangesAsync();
         }
 
         protected async Task SetParentAsync(Data.Models.Todo toBeAdded, Todo item)

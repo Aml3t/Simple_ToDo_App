@@ -19,6 +19,9 @@ public class MainViewModel : ObservableObject,
     private bool isLoading;
     private bool isInitialized;
 
+    private readonly IRepository<User> userRepository;
+    private readonly IRepository<TodoTask> todoRepository;
+
     public string StatusText 
     {
         get => statusText;
@@ -51,8 +54,6 @@ public class MainViewModel : ObservableObject,
 
     public ObservableCollection<Todo> Completed { get; set; } = new();
     public ObservableCollection<Todo> Unfinished { get; set; } = new();
-    public IRepository<User> UserRepository { get; }
-    public IRepository<TodoTask> TodoRepository { get; }
 
     public MainViewModel(IRepository<User> userRepository,
         IRepository<TodoTask> todoRepository)
@@ -100,8 +101,8 @@ public class MainViewModel : ObservableObject,
             }
             );
 
-        UserRepository = userRepository;
-        TodoRepository = todoRepository;
+        this.userRepository = userRepository;
+        this.todoRepository = todoRepository;
     }
 
     private void ReplaceOrAdd(ObservableCollection<Todo> collection, Todo item)
@@ -123,9 +124,9 @@ public class MainViewModel : ObservableObject,
     {
         if (isInitialized) return;
 
-        App.CurrentUser = await UserRepository.FindByAsync("Pit");
+        App.CurrentUser = await userRepository.FindByAsync("Pit");
 
-        var items = await TodoRepository.AllAsync();
+        var items = await todoRepository.AllAsync();
 
         var itemsDue = items.Count(i => i.DueDate.ToLocalTime() > DateTimeOffset.Now);
 
