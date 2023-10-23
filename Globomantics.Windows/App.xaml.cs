@@ -52,20 +52,27 @@ public partial class App : Application
 
     private async void OnStartup(object sender, StartupEventArgs e)
     {
-        var context = ServiceProvider.GetRequiredService<GlobomanticsDbContext>();
-
-        await context.Database.MigrateAsync();
-
-        var user = context.Users.FirstOrDefault();
-
-        if (user == null)
+        try
         {
-            user = new Infrastructure.Data.Models.User { Name = "Pit" };
-            context.Users.Add(user);
-            context.SaveChanges();
-        }
+            var context = ServiceProvider.GetRequiredService<GlobomanticsDbContext>();
 
-        App.CurrentUser = DataToDomainMapping.MapUser(user);
+            await context.Database.MigrateAsync();
+
+            var user = context.Users.FirstOrDefault();
+
+            if (user == null)
+            {
+                user = new Infrastructure.Data.Models.User { Name = "Pit" };
+                context.Users.Add(user);
+                context.SaveChanges();
+            }
+
+            App.CurrentUser = DataToDomainMapping.MapUser(user);
+        }
+        catch (Exception ex)
+        {
+            // TODO: Add Logging
+        }
 
         var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
 
