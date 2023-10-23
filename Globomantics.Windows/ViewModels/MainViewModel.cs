@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using Globomantics.Domain;
+using Globomantics.Infrastructure.Data.Repositories;
 using Globomantics.Windows.Messages;
 using System;
 using System.Collections.Generic;
@@ -50,9 +51,11 @@ public class MainViewModel : ObservableObject,
 
     public ObservableCollection<Todo> Completed { get; set; } = new();
     public ObservableCollection<Todo> Unfinished { get; set; } = new();
+    public IRepository<User> UserRepository { get; }
+    public IRepository<TodoTask> TodoRepository { get; }
 
-
-    public MainViewModel()
+    public MainViewModel(IRepository<User> userRepository,
+        IRepository<TodoTask> todoRepository)
     {
         WeakReferenceMessenger.Default.Register<TodoSavedMessage>(this,
             (sender, message) =>
@@ -96,6 +99,9 @@ public class MainViewModel : ObservableObject,
                 }
             }
             );
+
+        UserRepository = userRepository;
+        TodoRepository = todoRepository;
     }
 
     private void ReplaceOrAdd(ObservableCollection<Todo> collection, Todo item)
@@ -116,6 +122,15 @@ public class MainViewModel : ObservableObject,
     public async Task InitializeAsync()
     {
         if (isInitialized) return;
+
+        App.CurrentUser = await UserRepository.FindByAsync("Pit");
+
+        var items = await TodoRepository.AllAsync();
+
+        var itemsDue = items.Count(i => i.DueDate.ToLocalTime() > DateTimeOffset.Now);
+
+        StatusText = $"Welcome {App.CurrentUser.Name}! " +
+            $"You have {itemsDue} items passed due date";
 
         isInitialized = true;
     }
