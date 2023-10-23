@@ -110,7 +110,7 @@ public partial class MainWindow : Window
         var control = CreateUserControl(
             list.SelectedValue.GetType().Name,
             list.SelectedValue as Todo);
-        // TODO Check if the type cast is working
+
         CreateTodoControlContainer.Children.Add(control);
 
         CompletedItems.UnselectAll();

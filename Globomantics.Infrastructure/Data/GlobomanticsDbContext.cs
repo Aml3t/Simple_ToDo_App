@@ -18,7 +18,8 @@ namespace Globomantics.Infrastructure.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data Source = Globomantics.db");
+            optionsBuilder.UseSqlite("Data Source=Globomantics.db")
+                .EnableSensitiveDataLogging();
         }
     }
 }

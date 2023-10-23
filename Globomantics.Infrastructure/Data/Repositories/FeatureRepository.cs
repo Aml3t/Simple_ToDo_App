@@ -49,10 +49,10 @@ namespace Globomantics.Infrastructure.Data.Repositories
             Context.Update(featureToUpdate);
         }
 
-        private async Task CreateAsync(Feature feature, Models.User user)
+        private async Task CreateAsync(Feature feature, Data.Models.User user)
         {
-            var featureToAdd
-                = DomainToDataMapping.MapTodoFromDomain<Feature, Data.Models.Feature>(feature);
+            var featureToAdd = DomainToDataMapping.MapTodoFromDomain<Feature,
+                Data.Models.Feature>(feature);
 
             await SetParentAsync(featureToAdd, feature);
 

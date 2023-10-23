@@ -63,11 +63,16 @@ namespace Globomantics.Windows.ViewModels
                 };
             }
 
-            await repository.AddAsync(Model);
-            await repository.SaveChangesAsync();
-
-            WeakReferenceMessenger.Default.Send<TodoSavedMessage>(new(Model));
-
+            try
+            {
+                await repository.AddAsync(Model);
+                await repository.SaveChangesAsync();
+                WeakReferenceMessenger.Default.Send<TodoSavedMessage>(new(Model));
+            }
+            catch (Exception ex)
+            {
+                ShowError?.Invoke("Could not save to the database");
+            }
         }
 
         public override void UpdateModel(Todo model)
