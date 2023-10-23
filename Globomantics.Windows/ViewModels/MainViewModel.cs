@@ -132,6 +132,18 @@ public class MainViewModel : ObservableObject,
         StatusText = $"Welcome {App.CurrentUser.Name}! " +
             $"You have {itemsDue} items passed due date";
 
+        foreach (var item in items.Where(item => !item.IsDeleted))
+        {
+            if (item.IsCompleted)
+            {
+                Completed.Add(item);
+            }
+            else
+            {
+                Unfinished.Add(item);
+            }
+        }
+
         isInitialized = true;
     }
 }

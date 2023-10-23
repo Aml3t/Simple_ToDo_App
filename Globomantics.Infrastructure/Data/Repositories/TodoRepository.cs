@@ -47,11 +47,16 @@ namespace Globomantics.Infrastructure.Data.Repositories
         {
             Data.Models.TodoTask? existingParent = null;
 
-            if (item.Parent == null)
+            if (item.Parent is not null)
             {
                 existingParent = await Context.TodoTasks.FirstOrDefaultAsync(
                     i => i.Id == item.Parent.Id
                     );
+            }
+
+            if (existingParent is not null)
+            {
+                toBeAdded.Parent = existingParent;
             }
             else if (item.Parent is not null)
             {
