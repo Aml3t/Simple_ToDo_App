@@ -17,7 +17,7 @@ using System.Windows.Input;
 
 namespace Globomantics.Windows.ViewModels;
 
-public class MainViewModel : ObservableObject, 
+public class MainViewModel : ObservableObject,
     IViewModel
 {
     private string statusText = "Everything is OK!";
@@ -27,7 +27,7 @@ public class MainViewModel : ObservableObject,
     private readonly IRepository<User> userRepository;
     private readonly IRepository<TodoTask> todoRepository;
 
-    public string StatusText 
+    public string StatusText
     {
         get => statusText;
         set
@@ -109,11 +109,13 @@ public class MainViewModel : ObservableObject,
         this.userRepository = userRepository;
         this.todoRepository = todoRepository;
 
-        ExportCommand = new RelayCommand(async () => {
+        ExportCommand = new RelayCommand(async () =>
+        {
             await ExportAsync();
         });
 
-        ImportCommand = new RelayCommand(async () => {
+        ImportCommand = new RelayCommand(async () =>
+        {
             await ImportAsync();
         });
     }
@@ -138,7 +140,7 @@ public class MainViewModel : ObservableObject,
         ShowAlert?.Invoke("Data exported");
 
         isLoading = false;
-        
+
         // TODO -- Add some potential error handling
     }
 
@@ -162,12 +164,42 @@ public class MainViewModel : ObservableObject,
 
         var json = await File.ReadAllTextAsync(filename);
 
+        var items = JsonConvert.DeserializeObject<IEnumerable<TodoTask>>(
+            json, new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.Auto,
+                SerializationBinder = new SerializationBinder()
+            }
+         );
+
+        if (items is null)
+        {
+            return;
+        }
+
+        foreach (var item in items)
+        {
+            await todoRepository.AddAsync(item);
+
+            if (item.IsCompleted)
+            {
+                Completed.Add(item);
+            }
+
+            else if (item.IsDeleted)
+            {
+                Unfinished.Add(item);
+            }
+
+            isLoading = false;
+        }
+
     }
 
     private void ReplaceOrAdd(ObservableCollection<Todo> collection, Todo item)
     {
         var existingItem = collection.FirstOrDefault(i => i.Id == item.Id);
-        
+
         if (existingItem is not null)
         {
             var index = collection.IndexOf(existingItem);
