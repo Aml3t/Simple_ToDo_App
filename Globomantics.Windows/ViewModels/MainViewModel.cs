@@ -3,11 +3,15 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Globomantics.Domain;
 using Globomantics.Infrastructure.Data.Repositories;
+using Globomantics.Windows.Json;
 using Globomantics.Windows.Messages;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -121,6 +125,19 @@ public class MainViewModel : ObservableObject,
         isLoading = true;
 
         var items = await todoRepository.AllAsync();
+
+        var json = JsonConvert.SerializeObject(items,
+            new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.All,
+                SerializationBinder = new SerializationBinder()
+            });
+
+        await File.WriteAllTextAsync(fileName, json);
+
+        ShowAlert?.Invoke("Data exported");
+        
+        // TODO -- Add some potential error handling
     }
 
     private async Task ImportAsync()
