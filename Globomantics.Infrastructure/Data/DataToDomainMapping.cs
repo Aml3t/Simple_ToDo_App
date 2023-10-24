@@ -43,7 +43,7 @@ namespace Globomantics.Infrastructure.Data
                 MapUser(bug.AssignedTo),
                 bug?.Images?.Select(
                 image => Convert.FromBase64String(image.ImageData)).ToArray()
-                ?? Enumerable.Empty<byte[]>()
+                ?? Enumerable.Empty<byte[]>().ToArray()
             )
             {
                 Id = bug.Id,
