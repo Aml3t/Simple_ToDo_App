@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Globomantics.Domain;
 using Globomantics.Infrastructure.Data.Repositories;
@@ -103,6 +104,24 @@ public class MainViewModel : ObservableObject,
 
         this.userRepository = userRepository;
         this.todoRepository = todoRepository;
+
+        ExportCommand = new RelayCommand(async () => {
+            await ExportAsync();
+        });
+
+        ImportCommand = new RelayCommand(async () => {
+            await ImportAsync();
+        });
+    }
+
+    private Task ExportAsync()
+    {
+        throw new NotImplementedException();
+    }
+
+    private Task ImportAsync()
+    {
+        throw new NotImplementedException();
     }
 
     private void ReplaceOrAdd(ObservableCollection<Todo> collection, Todo item)
