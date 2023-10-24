@@ -136,6 +136,8 @@ public class MainViewModel : ObservableObject,
         await File.WriteAllTextAsync(fileName, json);
 
         ShowAlert?.Invoke("Data exported");
+
+        isLoading = false;
         
         // TODO -- Add some potential error handling
     }
