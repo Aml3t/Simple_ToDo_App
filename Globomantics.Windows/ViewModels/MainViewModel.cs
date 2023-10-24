@@ -114,12 +114,16 @@ public class MainViewModel : ObservableObject,
         });
     }
 
-    private Task ExportAsync()
+    private async Task ExportAsync()
     {
-        throw new NotImplementedException();
+        var fileName = ShowSaveFileDialog?.Invoke();
+
+        isLoading = true;
+
+        var items = await todoRepository.AllAsync();
     }
 
-    private Task ImportAsync()
+    private async Task ImportAsync()
     {
         throw new NotImplementedException();
     }
