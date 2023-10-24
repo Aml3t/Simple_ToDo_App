@@ -144,7 +144,24 @@ public class MainViewModel : ObservableObject,
 
     private async Task ImportAsync()
     {
-        throw new NotImplementedException();
+        var fileNames = ShowOpenFileDialog?.Invoke();
+
+        if (fileNames is null || !fileNames.Any())
+        {
+            return;
+        }
+
+        var filename = fileNames.First();
+
+        if (string.IsNullOrWhiteSpace(filename))
+        {
+            ShowError?.Invoke("No filename specified");
+        }
+
+        IsLoading = true;
+
+        var json = await File.ReadAllTextAsync(filename);
+
     }
 
     private void ReplaceOrAdd(ObservableCollection<Todo> collection, Todo item)
