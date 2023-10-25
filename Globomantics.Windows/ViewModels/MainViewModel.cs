@@ -193,7 +193,6 @@ public class MainViewModel : ObservableObject,
 
             isLoading = false;
         }
-
     }
 
     private void ReplaceOrAdd(ObservableCollection<Todo> collection, Todo item)

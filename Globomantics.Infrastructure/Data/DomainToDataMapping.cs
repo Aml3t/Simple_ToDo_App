@@ -1,4 +1,5 @@
-﻿using Globomantics.Infrastructure.Data.Models;
+﻿using Globomantics.Domain;
+using Globomantics.Infrastructure.Data.Models;
 
 namespace Globomantics.Infrastructure.Data
 {
@@ -41,6 +42,8 @@ namespace Globomantics.Infrastructure.Data
                 Severity = (Data.Models.Severity)bug.Severity,
                 Title = bug.Title,
                 Description = bug.Description,
+                AssignedToId = bug.AssignedTo?.Id,
+                CreatedById = bug.CreatedBy?.Id
             };
         }
         private static Data.Models.Feature MapFeature(Domain.Feature feature)
@@ -55,7 +58,9 @@ namespace Globomantics.Infrastructure.Data
                 IsDeleted = feature.IsDeleted,
                 Title = feature.Title,
                 Description = feature.Description,
-                Priority = feature.Priority
+                Priority = feature.Priority,
+                AssignedToId = feature.AssignedTo?.Id,
+                CreatedById = feature.CreatedBy?.Id
             };
         }
 
@@ -68,7 +73,8 @@ namespace Globomantics.Infrastructure.Data
                 DueDate = task.DueDate,
                 IsCompleted = task.IsCompleted,
                 IsDeleted = task.IsDeleted,
-                Title = task.Title
+                Title = task.Title,
+                CreatedById = task.CreatedBy?.Id
             };
         }
     }

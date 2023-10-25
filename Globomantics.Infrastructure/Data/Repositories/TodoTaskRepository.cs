@@ -17,7 +17,7 @@ namespace Globomantics.Infrastructure.Data.Repositories
             var todoTaskToAdd = DomainToDataMapping.MapTodoFromDomain<TodoTask,
                 Data.Models.TodoTask>(todoTask);
 
-            await Context.AddAsync(todoTask);
+            await Context.AddAsync(todoTaskToAdd);
 
         }
 
