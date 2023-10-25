@@ -190,9 +190,13 @@ public class MainViewModel : ObservableObject,
             {
                 Unfinished.Add(item);
             }
-
-            isLoading = false;
         }
+
+        await todoRepository.SaveChangesAsync();
+
+        ShowAlert?.Invoke("Data imported");
+
+        isLoading = false;
     }
 
     private void ReplaceOrAdd(ObservableCollection<Todo> collection, Todo item)
