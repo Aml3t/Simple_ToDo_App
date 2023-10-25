@@ -19,6 +19,6 @@ namespace Globomantics.Infrastructure.Data.Models
 
         //public Guid? AssignedToId { get; set; } = default!;
         public virtual Todo? Parent { get; set; }
-        public virtual User? AssignedTo { get; set; } = default!;
+        public virtual User? CreatedBy { get; set; } = default!;
     }
 }

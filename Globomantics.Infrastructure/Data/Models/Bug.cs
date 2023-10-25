@@ -15,7 +15,6 @@ namespace Globomantics.Infrastructure.Data.Models
         public int AffectedUsers { get; set; }
         public Guid? AssignedToId { get; set; } = default!;
         public virtual User? AssignedTo { get; set; } = default!;
-
         public virtual ICollection<Image> Images { get; set; } = default!;
     }
 }
