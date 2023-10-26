@@ -14,7 +14,6 @@ using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Windows.Input;
-
 namespace Globomantics.Windows.ViewModels;
 
 public class MainViewModel : ObservableObject,
@@ -132,26 +131,25 @@ public class MainViewModel : ObservableObject,
 
         SearchCommand = new RelayCommand(async () =>
         {
+        Unfinished.Clear();
+
+        var items = await todoRepository.AllAsync();
+
+        var query = items.AsQueryable()
+                    .Where(items => !items.IsCompleted &&
+                    !items.IsDeleted);
+
             if (string.IsNullOrWhiteSpace(SearchText) ||
                 SearchText.Equals("*", StringComparison.OrdinalIgnoreCase))
             {
-                Unfinished.Clear();
-
-                var items = await todoRepository.AllAsync();
-
                 foreach (var item in items
-                         .Where(item => !item.IsCompleted &&
-                                        !item.IsDeleted))
+                         .Where(query))
                 {
                     Unfinished.Add(item);
                 }
             }
             else
             {
-                Unfinished.Clear();
-
-                var items = await todoRepository.AllAsync();
-
                 foreach (var item in items
                          .Where(item => !item.IsCompleted &&
                                         !item.IsDeleted &&
