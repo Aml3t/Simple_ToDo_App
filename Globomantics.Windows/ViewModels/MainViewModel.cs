@@ -60,7 +60,6 @@ public class MainViewModel : ObservableObject,
 
     public ICommand ExportCommand { get; set; }
     public ICommand ImportCommand { get; set; }
-
     public ICommand SearchCommand { get; set; }
 
     public Action<string>? ShowAlert { get; set; }
@@ -129,6 +128,24 @@ public class MainViewModel : ObservableObject,
         ImportCommand = new RelayCommand(async () =>
         {
             await ImportAsync();
+        });
+
+        SearchCommand = new RelayCommand(async () =>
+        {
+            if (string.IsNullOrWhiteSpace(SearchText) ||
+                SearchText.Equals("*", StringComparison.OrdinalIgnoreCase))
+            {
+                Unfinished.Clear();
+
+                var items = await todoRepository.AllAsync();
+
+                foreach (var item in items
+                         .Where(item => !item.IsCompleted && !item.IsDeleted))
+                {
+                    Unfinished.Add(item);
+                }
+            }
+
         });
     }
 
