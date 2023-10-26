@@ -139,25 +139,17 @@ public class MainViewModel : ObservableObject,
                     .Where(items => !items.IsCompleted &&
                     !items.IsDeleted);
 
-            if (string.IsNullOrWhiteSpace(SearchText) ||
-                SearchText.Equals("*", StringComparison.OrdinalIgnoreCase))
+            if (!string.IsNullOrWhiteSpace(SearchText) &&
+                !SearchText.Equals("*", StringComparison.OrdinalIgnoreCase))
             {
-                foreach (var item in items
-                         .Where(query))
-                {
-                    Unfinished.Add(item);
-                }
+                query = query.Where(item => item.Title.Contains(SearchText,
+                                    StringComparison.OrdinalIgnoreCase));
+
             }
-            else
+
+            foreach (var item in query)
             {
-                foreach (var item in items
-                         .Where(item => !item.IsCompleted &&
-                                        !item.IsDeleted &&
-                                        item.Title.Contains(SearchText,
-                                        StringComparison.OrdinalIgnoreCase)))
-                {
-                    Unfinished.Add(item);
-                }
+                Unfinished.Add(item);
             }
         });
     }
