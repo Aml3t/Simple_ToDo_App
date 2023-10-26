@@ -20,6 +20,7 @@ namespace Globomantics.Windows.ViewModels;
 public class MainViewModel : ObservableObject,
     IViewModel
 {
+    private string searchText = "";
     private string statusText = "Everything is OK!";
     private bool isLoading;
     private bool isInitialized;
@@ -27,6 +28,15 @@ public class MainViewModel : ObservableObject,
     private readonly IRepository<User> userRepository;
     private readonly IRepository<TodoTask> todoRepository;
 
+    public string SearchText
+    {
+        get => searchText;
+        set
+        {
+            searchText = value;
+            OnPropertyChanged(nameof(SearchText));
+        }
+    }
     public string StatusText
     {
         get => statusText;
@@ -50,6 +60,8 @@ public class MainViewModel : ObservableObject,
 
     public ICommand ExportCommand { get; set; }
     public ICommand ImportCommand { get; set; }
+
+    public ICommand SearchCommand { get; set; }
 
     public Action<string>? ShowAlert { get; set; }
     public Action<string>? ShowError { get; set; }
