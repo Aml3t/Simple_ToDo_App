@@ -140,12 +140,27 @@ public class MainViewModel : ObservableObject,
                 var items = await todoRepository.AllAsync();
 
                 foreach (var item in items
-                         .Where(item => !item.IsCompleted && !item.IsDeleted))
+                         .Where(item => !item.IsCompleted &&
+                                        !item.IsDeleted))
                 {
                     Unfinished.Add(item);
                 }
             }
+            else
+            {
+                Unfinished.Clear();
 
+                var items = await todoRepository.AllAsync();
+
+                foreach (var item in items
+                         .Where(item => !item.IsCompleted &&
+                                        !item.IsDeleted &&
+                                        item.Title.Contains(SearchText,
+                                        StringComparison.OrdinalIgnoreCase)))
+                {
+                    Unfinished.Add(item);
+                }
+            }
         });
     }
 
@@ -251,7 +266,8 @@ public class MainViewModel : ObservableObject,
 
         var items = await todoRepository.AllAsync();
 
-        var itemsDue = items.Count(i => i.DueDate.ToLocalTime() > DateTimeOffset.Now);
+        var itemsDue = items.Count(i => i.DueDate.ToLocalTime()
+                                   > DateTimeOffset.Now);
 
         StatusText = $"Welcome {App.CurrentUser.Name}! " +
             $"You have {itemsDue} items passed due date";
